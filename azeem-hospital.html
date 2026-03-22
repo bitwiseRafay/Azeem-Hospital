@@ -1,0 +1,990 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Azeem Hospital — Chart Road, Multan</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400;1,600&family=Plus+Jakarta+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --teal:       #0B7B7B;
+    --teal-light: #0FA3A3;
+    --teal-pale:  #E0F5F5;
+    --red:        #C0392B;
+    --red-light:  #FDECEA;
+    --gold:       #C8941A;
+    --gold-pale:  #FEF5E0;
+    --ink:        #12232E;
+    --ink-soft:   #3A4D5C;
+    --muted:      #7A8E9B;
+    --bg:         #F7FAFA;
+    --white:      #FFFFFF;
+    --border:     rgba(11,123,123,0.12);
+    --shadow:     0 4px 24px rgba(11,123,123,0.10);
+  }
+
+  *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
+  body {
+    font-family: 'Plus Jakarta Sans', sans-serif;
+    background: var(--bg);
+    color: var(--ink-soft);
+    overflow-x: hidden;
+  }
+
+  /* ── TOPBAR ── */
+  .topbar {
+    background: var(--teal);
+    color: rgba(255,255,255,0.85);
+    padding: 9px 6vw;
+    display: flex; justify-content: space-between; align-items: center;
+    font-size: 0.8rem; gap: 12px; flex-wrap: wrap;
+  }
+  .topbar a { color: rgba(255,255,255,0.85); text-decoration: none; }
+  .topbar-right { display: flex; gap: 24px; align-items: center; }
+  .topbar-phone {
+    background: rgba(255,255,255,0.15);
+    padding: 5px 14px; border-radius: 50px;
+    font-weight: 700; letter-spacing: 0.02em;
+    color: #fff; font-size: 0.82rem;
+  }
+
+  /* ── NAV ── */
+  nav {
+    position: sticky; top: 0; z-index: 200;
+    background: var(--white);
+    box-shadow: 0 2px 16px rgba(11,123,123,0.08);
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 16px 6vw; gap: 20px;
+  }
+  .nav-logo {
+    display: flex; align-items: center; gap: 14px;
+    text-decoration: none;
+  }
+  .logo-mark {
+    width: 48px; height: 48px; border-radius: 14px;
+    background: linear-gradient(135deg, var(--teal), var(--teal-light));
+    display: flex; align-items: center; justify-content: center;
+    flex-shrink: 0;
+  }
+  .logo-mark svg { width: 26px; height: 26px; fill: none; stroke: #fff; stroke-width: 2.2; }
+  .logo-text { line-height: 1.2; }
+  .logo-en {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.2rem; font-weight: 700; color: var(--ink);
+  }
+  .logo-ur {
+    font-size: 0.82rem; color: var(--teal); font-weight: 600;
+    direction: rtl;
+  }
+  .nav-links { display: flex; gap: 30px; list-style: none; }
+  .nav-links a {
+    text-decoration: none; color: var(--ink-soft);
+    font-size: 0.88rem; font-weight: 500;
+    transition: color 0.2s; position: relative;
+  }
+  .nav-links a::after {
+    content: ''; position: absolute; bottom: -4px; left: 0; right: 0; height: 2px;
+    background: var(--teal); transform: scaleX(0); transition: transform 0.2s;
+    border-radius: 2px;
+  }
+  .nav-links a:hover { color: var(--teal); }
+  .nav-links a:hover::after { transform: scaleX(1); }
+  .btn-appt {
+    background: var(--red); color: #fff !important;
+    padding: 11px 24px; border-radius: 50px;
+    font-weight: 700 !important; font-size: 0.86rem !important;
+    transition: background 0.2s, transform 0.2s;
+    border: none; cursor: pointer; text-decoration: none;
+    font-family: 'Plus Jakarta Sans', sans-serif;
+  }
+  .btn-appt:hover { background: #a93226; transform: translateY(-2px); }
+  .btn-appt::after { display: none !important; }
+
+  /* ── HERO ── */
+  .hero {
+    min-height: 88vh;
+    display: grid; grid-template-columns: 1.1fr 1fr;
+    align-items: center; gap: 48px;
+    padding: 72px 6vw 60px;
+    position: relative; overflow: hidden;
+  }
+  .hero-bg-shape {
+    position: absolute; right: -100px; top: -80px;
+    width: 620px; height: 620px; border-radius: 50%;
+    background: radial-gradient(circle, var(--teal-pale) 0%, transparent 70%);
+    pointer-events: none; z-index: 0;
+  }
+  .hero-bg-shape2 {
+    position: absolute; left: -60px; bottom: -60px;
+    width: 400px; height: 400px; border-radius: 50%;
+    background: radial-gradient(circle, var(--gold-pale) 0%, transparent 70%);
+    pointer-events: none; z-index: 0;
+  }
+  .hero-text { position: relative; z-index: 1; animation: fadeUp 0.8s ease both; }
+  .clinic-badge {
+    display: inline-flex; align-items: center; gap: 10px;
+    background: var(--teal-pale); color: var(--teal);
+    border: 1px solid var(--border);
+    padding: 7px 18px; border-radius: 50px;
+    font-size: 0.78rem; font-weight: 700; letter-spacing: 0.06em;
+    text-transform: uppercase; margin-bottom: 28px;
+  }
+  .badge-dot { width: 7px; height: 7px; border-radius: 50%; background: var(--teal); flex-shrink: 0; }
+  h1 {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(2.6rem, 4.5vw, 4rem);
+    font-weight: 700; color: var(--ink); line-height: 1.1; margin-bottom: 8px;
+  }
+  h1 .ur-name {
+    display: block; font-size: clamp(1.6rem, 3vw, 2.4rem);
+    color: var(--teal); font-style: italic; margin-top: 4px;
+    direction: rtl; text-align: left;
+  }
+  .hero-desc {
+    font-size: 1rem; color: var(--muted); line-height: 1.75;
+    max-width: 500px; margin: 22px 0 36px;
+  }
+  .hero-ctas { display: flex; gap: 14px; flex-wrap: wrap; }
+  .btn-primary {
+    background: var(--teal); color: #fff;
+    padding: 14px 30px; border-radius: 50px; border: none;
+    font-family: 'Plus Jakarta Sans', sans-serif;
+    font-size: 0.92rem; font-weight: 700; cursor: pointer;
+    text-decoration: none; display: inline-flex; align-items: center; gap: 8px;
+    transition: all 0.25s;
+  }
+  .btn-primary:hover { background: var(--teal-light); transform: translateY(-2px); box-shadow: 0 8px 20px rgba(11,123,123,0.3); }
+  .btn-ghost {
+    background: transparent; color: var(--ink);
+    padding: 13px 28px; border-radius: 50px;
+    border: 2px solid var(--border);
+    font-family: 'Plus Jakarta Sans', sans-serif;
+    font-size: 0.92rem; font-weight: 600; cursor: pointer;
+    text-decoration: none; transition: all 0.25s;
+  }
+  .btn-ghost:hover { border-color: var(--teal); color: var(--teal); }
+  .hero-stats {
+    display: flex; gap: 32px; margin-top: 48px; padding-top: 36px;
+    border-top: 1px solid var(--border);
+  }
+  .stat-num {
+    font-family: 'Playfair Display', serif;
+    font-size: 2rem; font-weight: 700; color: var(--teal);
+  }
+  .stat-label { font-size: 0.78rem; color: var(--muted); margin-top: 2px; }
+
+  /* Hero card */
+  .hero-visual { position: relative; z-index: 1; animation: fadeUp 0.8s 0.18s ease both; }
+  .hero-card {
+    background: var(--white); border-radius: 24px; padding: 32px;
+    box-shadow: 0 24px 64px rgba(11,123,123,0.12), 0 2px 8px rgba(11,123,123,0.06);
+    position: relative;
+  }
+  .card-header {
+    display: flex; align-items: center; gap: 16px; margin-bottom: 24px;
+    padding-bottom: 20px; border-bottom: 1px solid var(--border);
+  }
+  .hospital-icon {
+    width: 56px; height: 56px; border-radius: 16px; flex-shrink: 0;
+    background: linear-gradient(135deg, var(--teal), var(--teal-light));
+    display: flex; align-items: center; justify-content: center; font-size: 1.6rem;
+  }
+  .card-header h3 {
+    font-family: 'Playfair Display', serif; font-size: 1.15rem; color: var(--ink);
+  }
+  .card-header p { font-size: 0.8rem; color: var(--muted); margin-top: 3px; }
+  .doc-list { display: flex; flex-direction: column; gap: 14px; }
+  .doc-row {
+    display: flex; align-items: center; gap: 14px;
+    padding: 12px; border-radius: 12px; background: var(--bg);
+    border: 1px solid var(--border); transition: background 0.2s;
+  }
+  .doc-row:hover { background: var(--teal-pale); }
+  .doc-avatar {
+    width: 40px; height: 40px; border-radius: 50%; flex-shrink: 0;
+    display: flex; align-items: center; justify-content: center; font-size: 1.2rem;
+  }
+  .av-teal { background: var(--teal-pale); }
+  .av-red  { background: var(--red-light); }
+  .av-gold { background: var(--gold-pale); }
+  .doc-row-name { font-size: 0.85rem; font-weight: 700; color: var(--ink); }
+  .doc-row-spec { font-size: 0.74rem; color: var(--muted); }
+  .avail-chip {
+    margin-left: auto; font-size: 0.7rem; font-weight: 700;
+    background: #E8F8F0; color: #1A8A4A;
+    padding: 4px 10px; border-radius: 50px; white-space: nowrap;
+  }
+  .contact-strip {
+    display: flex; gap: 10px; margin-top: 20px; flex-wrap: wrap;
+  }
+  .contact-chip {
+    flex: 1; min-width: 120px; background: var(--teal);
+    color: #fff; border-radius: 12px; padding: 12px 16px;
+    text-align: center;
+  }
+  .contact-chip .chip-label { font-size: 0.68rem; opacity: 0.75; display: block; }
+  .contact-chip .chip-num { font-size: 0.88rem; font-weight: 700; display: block; margin-top: 2px; }
+
+  /* ── SECTION COMMONS ── */
+  .section { padding: 88px 6vw; }
+  .section-tag {
+    font-size: 0.72rem; text-transform: uppercase; letter-spacing: 0.12em;
+    font-weight: 800; color: var(--teal); margin-bottom: 12px;
+    display: flex; align-items: center; gap: 8px;
+  }
+  .section-tag::before {
+    content: ''; width: 24px; height: 2px; background: var(--teal); border-radius: 2px;
+  }
+  h2 {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(1.9rem, 3.2vw, 2.7rem);
+    font-weight: 700; color: var(--ink); line-height: 1.18; margin-bottom: 14px;
+  }
+  .section-sub { font-size: 0.97rem; color: var(--muted); line-height: 1.75; max-width: 540px; margin-bottom: 52px; }
+
+  /* ── DOCTORS ── */
+  .doctors-section { background: var(--white); }
+  .doctors-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 22px; }
+  .doctor-card {
+    border-radius: 20px; overflow: hidden;
+    border: 1px solid var(--border); transition: all 0.3s;
+    background: var(--white);
+  }
+  .doctor-card:hover { transform: translateY(-5px); box-shadow: 0 20px 48px rgba(11,123,123,0.11); }
+  .doctor-card-top {
+    padding: 28px 28px 0;
+    display: flex; gap: 18px; align-items: flex-start;
+  }
+  .dc-avatar {
+    width: 68px; height: 68px; border-radius: 18px; flex-shrink: 0;
+    display: flex; align-items: center; justify-content: center; font-size: 2rem;
+  }
+  .dc-a1 { background: linear-gradient(135deg, #C8E6F5, #B8E8D0); }
+  .dc-a2 { background: linear-gradient(135deg, #FFD6C0, #FFE680); }
+  .dc-a3 { background: linear-gradient(135deg, #D8CCFF, #C8E6F5); }
+  .dc-a4 { background: linear-gradient(135deg, #B8E8D0, #FFD6C0); }
+  .dc-info h3 {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.08rem; color: var(--ink); margin-bottom: 5px;
+  }
+  .spec-badge {
+    display: inline-block; background: var(--teal-pale); color: var(--teal);
+    padding: 4px 12px; border-radius: 50px; font-size: 0.72rem; font-weight: 700;
+    letter-spacing: 0.03em; margin-bottom: 4px;
+  }
+  .qual-line { font-size: 0.75rem; color: var(--muted); line-height: 1.5; }
+  .doctor-card-body { padding: 18px 28px 24px; }
+  .doctor-card-body p { font-size: 0.85rem; color: var(--muted); line-height: 1.65; margin-bottom: 16px; }
+  .book-link {
+    display: inline-flex; align-items: center; gap: 6px;
+    color: var(--teal); font-size: 0.83rem; font-weight: 700;
+    text-decoration: none; transition: gap 0.2s;
+  }
+  .book-link:hover { gap: 10px; }
+  .book-link span { font-size: 1rem; }
+
+  /* ── SERVICES ── */
+  .services-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 18px; }
+  .svc-card {
+    background: var(--white); border-radius: 18px; padding: 28px;
+    border: 1px solid var(--border); transition: all 0.3s; position: relative; overflow: hidden;
+  }
+  .svc-card::after {
+    content: ''; position: absolute; top: 0; left: 0; right: 0; height: 4px;
+    border-radius: 18px 18px 0 0;
+  }
+  .svc-card.t1::after { background: linear-gradient(90deg, var(--teal), var(--teal-light)); }
+  .svc-card.t2::after { background: linear-gradient(90deg, var(--red), #E74C3C); }
+  .svc-card.t3::after { background: linear-gradient(90deg, var(--gold), #F0C040); }
+  .svc-card.t4::after { background: linear-gradient(90deg, #8E44AD, #BB8FCE); }
+  .svc-card.t5::after { background: linear-gradient(90deg, #1A8A4A, #52BE80); }
+  .svc-card.t6::after { background: linear-gradient(90deg, #1A5276, #5DADE2); }
+  .svc-card:hover { transform: translateY(-4px); box-shadow: var(--shadow); }
+  .svc-icon { font-size: 2rem; margin-bottom: 16px; }
+  .svc-card h3 { font-family: 'Playfair Display', serif; font-size: 1rem; color: var(--ink); margin-bottom: 8px; }
+  .svc-card p { font-size: 0.83rem; color: var(--muted); line-height: 1.65; }
+
+  /* ── APPOINTMENT ── */
+  .appt-wrapper {
+    background: var(--ink); border-radius: 32px; margin: 0 3vw;
+    display: grid; grid-template-columns: 1fr 1.1fr; overflow: hidden;
+  }
+  .appt-left {
+    padding: 64px 6vw 64px 7vw;
+    background: linear-gradient(160deg, var(--teal) 0%, var(--ink) 100%);
+    display: flex; flex-direction: column; justify-content: center; gap: 28px;
+  }
+  .appt-left .section-tag { color: rgba(255,255,255,0.6); }
+  .appt-left .section-tag::before { background: rgba(255,255,255,0.4); }
+  .appt-left h2 { color: #fff; font-size: clamp(1.6rem,2.5vw,2.2rem); }
+  .appt-left p { color: rgba(255,255,255,0.6); font-size: 0.9rem; line-height: 1.75; }
+  .contact-info-list { display: flex; flex-direction: column; gap: 18px; }
+  .ci-item { display: flex; gap: 14px; align-items: flex-start; }
+  .ci-icon {
+    width: 42px; height: 42px; border-radius: 12px;
+    background: rgba(255,255,255,0.12); flex-shrink: 0;
+    display: flex; align-items: center; justify-content: center; font-size: 1.1rem;
+  }
+  .ci-item h4 { font-size: 0.82rem; color: rgba(255,255,255,0.5); margin-bottom: 3px; text-transform: uppercase; letter-spacing: 0.06em; font-weight: 700; }
+  .ci-item p { font-size: 0.9rem; color: #fff; font-weight: 500; }
+  .appt-right { background: var(--white); padding: 56px 7vw 56px 6vw; }
+  .appt-right h3 {
+    font-family: 'Playfair Display', serif; font-size: 1.5rem; color: var(--ink); margin-bottom: 28px;
+  }
+  .form-group { margin-bottom: 16px; }
+  .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+  label {
+    display: block; font-size: 0.73rem; font-weight: 700; color: var(--muted);
+    text-transform: uppercase; letter-spacing: 0.07em; margin-bottom: 7px;
+  }
+  input, select, textarea {
+    width: 100%; padding: 13px 16px;
+    border: 1.5px solid var(--border); border-radius: 10px;
+    font-family: 'Plus Jakarta Sans', sans-serif; font-size: 0.9rem; color: var(--ink);
+    background: var(--bg); outline: none; transition: border-color 0.2s, background 0.2s;
+  }
+  input:focus, select:focus, textarea:focus { border-color: var(--teal); background: var(--white); }
+  textarea { resize: none; height: 90px; }
+  .btn-book {
+    width: 100%; background: var(--teal); color: #fff; padding: 15px;
+    border-radius: 12px; border: none; cursor: pointer;
+    font-family: 'Plus Jakarta Sans', sans-serif; font-size: 0.95rem; font-weight: 700;
+    transition: all 0.25s; margin-top: 6px; letter-spacing: 0.01em;
+  }
+  .btn-book:hover { background: var(--teal-light); box-shadow: 0 8px 20px rgba(11,123,123,0.3); }
+
+  /* ── ABOUT ── */
+  .about-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 60px; align-items: center; }
+  .about-features { display: flex; flex-direction: column; gap: 16px; }
+  .feat-item {
+    display: flex; gap: 16px; align-items: flex-start;
+    padding: 20px; background: var(--white); border-radius: 14px; border: 1px solid var(--border);
+    transition: box-shadow 0.2s;
+  }
+  .feat-item:hover { box-shadow: var(--shadow); }
+  .feat-icon {
+    width: 44px; height: 44px; border-radius: 12px; flex-shrink: 0;
+    display: flex; align-items: center; justify-content: center; font-size: 1.2rem;
+  }
+  .f-teal { background: var(--teal-pale); }
+  .f-red  { background: var(--red-light); }
+  .f-gold { background: var(--gold-pale); }
+  .f-mint { background: #E0F7EE; }
+  .feat-item h4 { font-size: 0.92rem; font-weight: 700; color: var(--ink); margin-bottom: 3px; }
+  .feat-item p { font-size: 0.82rem; color: var(--muted); line-height: 1.6; }
+  .about-visual {
+    background: var(--teal); border-radius: 28px; padding: 44px;
+    color: #fff; display: flex; flex-direction: column; gap: 28px;
+  }
+  .about-visual h3 {
+    font-family: 'Playfair Display', serif; font-size: 1.6rem;
+    line-height: 1.25; margin-bottom: 4px;
+  }
+  .about-visual p { font-size: 0.88rem; color: rgba(255,255,255,0.65); line-height: 1.7; }
+  .about-nums { display: grid; grid-template-columns: 1fr 1fr; gap: 18px; margin-top: 8px; }
+  .about-num-item { background: rgba(255,255,255,0.1); border-radius: 16px; padding: 20px; }
+  .about-num-item .num {
+    font-family: 'Playfair Display', serif; font-size: 2rem; font-weight: 700; color: #fff;
+  }
+  .about-num-item .nlabel { font-size: 0.78rem; color: rgba(255,255,255,0.55); margin-top: 2px; }
+
+  /* ── MAP / LOCATION ── */
+  .location-section { background: var(--white); }
+  .location-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 40px; align-items: start; }
+  .map-placeholder {
+    background: var(--teal-pale); border-radius: 20px; height: 320px;
+    display: flex; flex-direction: column; align-items: center; justify-content: center;
+    gap: 12px; border: 2px dashed var(--teal); color: var(--teal); font-weight: 700;
+    font-size: 1rem; text-align: center;
+  }
+  .map-placeholder span { font-size: 3rem; }
+  .map-placeholder p { font-size: 0.82rem; font-weight: 400; color: var(--muted); max-width: 220px; }
+  .hours-table { width: 100%; border-collapse: collapse; margin-top: 16px; }
+  .hours-table tr:not(:last-child) td { border-bottom: 1px solid var(--border); }
+  .hours-table td { padding: 12px 0; font-size: 0.88rem; }
+  .hours-table td:first-child { color: var(--ink-soft); font-weight: 600; }
+  .hours-table td:last-child { text-align: right; color: var(--muted); }
+  .open-chip { color: #1A8A4A; font-weight: 700; }
+  .closed-chip { color: var(--red); font-weight: 700; }
+
+  /* ── FOOTER ── */
+  footer {
+    background: var(--ink); color: rgba(255,255,255,0.55);
+    padding: 64px 6vw 28px;
+  }
+  .footer-top {
+    display: grid; grid-template-columns: 2fr 1fr 1fr 1fr; gap: 40px; margin-bottom: 48px;
+  }
+  .footer-logo { margin-bottom: 14px; }
+  .footer-logo .logo-en { color: #fff; }
+  .footer-logo .logo-ur { color: rgba(255,255,255,0.5); }
+  footer p { font-size: 0.84rem; line-height: 1.7; max-width: 280px; }
+  .footer-col h4 { font-size: 0.75rem; font-weight: 800; letter-spacing: 0.1em; text-transform: uppercase; color: rgba(255,255,255,0.8); margin-bottom: 16px; }
+  .footer-col ul { list-style: none; display: flex; flex-direction: column; gap: 10px; }
+  .footer-col a { color: rgba(255,255,255,0.5); text-decoration: none; font-size: 0.84rem; transition: color 0.2s; }
+  .footer-col a:hover { color: var(--teal-light); }
+  .footer-phones { display: flex; flex-direction: column; gap: 10px; margin-top: 4px; }
+  .fp { display: flex; flex-direction: column; }
+  .fp-label { font-size: 0.68rem; color: rgba(255,255,255,0.35); text-transform: uppercase; letter-spacing: 0.08em; }
+  .fp-num { font-size: 0.95rem; font-weight: 700; color: #fff; }
+  .footer-bottom {
+    border-top: 1px solid rgba(255,255,255,0.08); padding-top: 22px;
+    display: flex; justify-content: space-between; align-items: center; font-size: 0.8rem; flex-wrap: wrap; gap: 10px;
+  }
+  .footer-bottom span { color: rgba(255,255,255,0.3); }
+
+  /* ── ANIMATIONS ── */
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(26px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+
+  /* ── URDU SECTION HEADER ── */
+  .ur-heading {
+    font-size: 1.3rem; direction: rtl; color: var(--teal);
+    font-weight: 700; margin-bottom: 6px;
+  }
+
+  /* ── RESPONSIVE ── */
+  @media (max-width: 960px) {
+    .hero { grid-template-columns: 1fr; padding-top: 48px; }
+    .hero-visual { max-width: 480px; margin: 0 auto; }
+    .doctors-grid { grid-template-columns: 1fr; }
+    .services-grid { grid-template-columns: 1fr 1fr; }
+    .appt-wrapper { grid-template-columns: 1fr; }
+    .appt-left { padding: 48px 7vw; }
+    .about-grid, .location-grid { grid-template-columns: 1fr; }
+    .footer-top { grid-template-columns: 1fr 1fr; }
+  }
+  @media (max-width: 600px) {
+    .services-grid { grid-template-columns: 1fr; }
+    .footer-top { grid-template-columns: 1fr; }
+    .form-row { grid-template-columns: 1fr; }
+    .nav-links { display: none; }
+    .topbar-right { display: none; }
+    .hero-stats { flex-wrap: wrap; gap: 20px; }
+  }
+</style>
+</head>
+<body>
+
+<!-- TOPBAR -->
+<div class="topbar">
+  <span>📍 Chart Road, Multan &nbsp;|&nbsp; عظیم ہسپتال چارٹ روڈ ملتان</span>
+  <div class="topbar-right">
+    <span>🕐 Mon–Sat: 9:00 AM – 9:00 PM</span>
+    <a href="tel:03007310060" class="topbar-phone">📞 0300-7310060</a>
+  </div>
+</div>
+
+<!-- NAV -->
+<nav>
+  <a href="#" class="nav-logo">
+    <div class="logo-mark">
+      <svg viewBox="0 0 24 24"><path d="M12 2L12 22M2 12L22 12" stroke-linecap="round"/><path d="M7 7 A7 7 0 0 1 17 7" fill="none"/></svg>
+    </div>
+    <div class="logo-text">
+      <div class="logo-en">Azeem Hospital</div>
+      <div class="logo-ur">عظیم ہسپتال، ملتان</div>
+    </div>
+  </a>
+  <ul class="nav-links">
+    <li><a href="#doctors">Doctors</a></li>
+    <li><a href="#services">Services</a></li>
+    <li><a href="#about">About</a></li>
+    <li><a href="#location">Location</a></li>
+  </ul>
+  <a href="#appointment" class="btn-appt">Book Appointment</a>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-bg-shape"></div>
+  <div class="hero-bg-shape2"></div>
+
+  <div class="hero-text">
+    <div class="clinic-badge"><div class="badge-dot"></div> Pediatric Excellence · Chart Road, Multan</div>
+    <h1>
+      Azeem Hospital
+      <span class="ur-name">عظیم ہسپتال</span>
+    </h1>
+    <p class="hero-desc">
+      A trusted center of compassionate pediatric and specialist care in Multan.
+      Our board-certified doctors bring decades of experience to every child's health journey.
+    </p>
+    <div class="hero-ctas">
+      <a href="#appointment" class="btn-primary">📅 Book Appointment</a>
+      <a href="#doctors" class="btn-ghost">Meet Our Doctors</a>
+    </div>
+    <div class="hero-stats">
+      <div>
+        <div class="stat-num">4</div>
+        <div class="stat-label">Specialist Doctors</div>
+      </div>
+      <div>
+        <div class="stat-num">15+</div>
+        <div class="stat-label">Years of Service</div>
+      </div>
+      <div>
+        <div class="stat-num">24/7</div>
+        <div class="stat-label">Emergency Care</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="hero-visual">
+    <div class="hero-card">
+      <div class="card-header">
+        <div class="hospital-icon">🏥</div>
+        <div>
+          <h3>Azeem Hospital</h3>
+          <p>Chart Road, Multan · عظیم ہسپتال چارٹ روڈ</p>
+        </div>
+      </div>
+      <div class="doc-list">
+        <div class="doc-row">
+          <div class="doc-avatar av-teal">👩‍⚕️</div>
+          <div>
+            <div class="doc-row-name">Dr. Nusrat Bazdar</div>
+            <div class="doc-row-spec">Pediatrics & Neonatology · Associate Prof.</div>
+          </div>
+          <div class="avail-chip">✓ Available</div>
+        </div>
+        <div class="doc-row">
+          <div class="doc-avatar av-red">👨‍⚕️</div>
+          <div>
+            <div class="doc-row-name">Dr. Aqib Javed Malghani</div>
+            <div class="doc-row-spec">Pediatrics, Pulmonology & Hematology</div>
+          </div>
+          <div class="avail-chip">✓ Available</div>
+        </div>
+        <div class="doc-row">
+          <div class="doc-avatar av-gold">👨‍⚕️</div>
+          <div>
+            <div class="doc-row-name">Dr. Zulfiqar Chan</div>
+            <div class="doc-row-spec">Child Specialist & Neonatologist</div>
+          </div>
+          <div class="avail-chip">✓ Available</div>
+        </div>
+        <div class="doc-row">
+          <div class="doc-avatar av-teal">👨‍⚕️</div>
+          <div>
+            <div class="doc-row-name">Dr. Suleman Zafar</div>
+            <div class="doc-row-spec">Plastics & Reconstructive Surgery</div>
+          </div>
+          <div class="avail-chip">✓ Available</div>
+        </div>
+      </div>
+      <div class="contact-strip">
+        <div class="contact-chip">
+          <span class="chip-label">For Appointment</span>
+          <span class="chip-num">0300-7310060</span>
+        </div>
+        <div class="contact-chip">
+          <span class="chip-label">Emergency / Alt.</span>
+          <span class="chip-num">0333-4413083</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- DOCTORS -->
+<section class="section doctors-section" id="doctors">
+  <div class="section-tag">Our Specialists</div>
+  <h2>Meet the Doctors</h2>
+  <p class="section-sub">Board-certified specialists committed to the health and well-being of every child and patient at Azeem Hospital.</p>
+
+  <div class="doctors-grid">
+
+    <div class="doctor-card">
+      <div class="doctor-card-top">
+        <div class="dc-avatar dc-a2">👩‍⚕️</div>
+        <div class="dc-info">
+          <h3>Dr. Nusrat Bazdar</h3>
+          <div class="spec-badge">Pediatrics & Neonatology</div><br>
+          <span class="qual-line">Associate Professor · MBBS, FCPS (Pediatrics)<br>Consultant Child Specialist & Neonatologist</span>
+        </div>
+      </div>
+      <div class="doctor-card-body">
+        <p>A highly experienced Associate Professor and Consultant in pediatrics and neonatology, Dr. Bazdar brings academic rigor and clinical excellence to every patient at Azeem Hospital.</p>
+        <a href="#appointment" class="book-link">Book an Appointment <span>→</span></a>
+      </div>
+    </div>
+
+    <div class="doctor-card">
+      <div class="doctor-card-top">
+        <div class="dc-avatar dc-a1">👨‍⚕️</div>
+        <div class="dc-info">
+          <h3>Dr. Aqib Javed Malghani</h3>
+          <div class="spec-badge">Pediatric Pulmonology & Hematology</div><br>
+          <span class="qual-line">MBBS, FCPS (Pediatrics)<br>Consultant Child Specialist, Pulmonologist & Hematologist</span>
+        </div>
+      </div>
+      <div class="doctor-card-body">
+        <p>Specializing in pediatric pulmonology, hematology, and development, Dr. Malghani is dedicated to diagnosing and treating complex conditions in children with empathy and expertise.</p>
+        <a href="#appointment" class="book-link">Book an Appointment <span>→</span></a>
+      </div>
+    </div>
+
+    <div class="doctor-card">
+      <div class="doctor-card-top">
+        <div class="dc-avatar dc-a3">👨‍⚕️</div>
+        <div class="dc-info">
+          <h3>Dr. Zulfiqar Chan</h3>
+          <div class="spec-badge">Child Specialist & Neonatologist</div><br>
+          <span class="qual-line">MBBS, FCPS (Pediatrics) · FCPS (Child Specialist & Neonatologist)<br>Bolan Medical University, Quetta</span>
+        </div>
+      </div>
+      <div class="doctor-card-body">
+        <p>Trained at Bolan Medical University, Dr. Chan is a FCPS-certified consultant child specialist and neonatologist with a strong focus on newborn and infant care.</p>
+        <a href="#appointment" class="book-link">Book an Appointment <span>→</span></a>
+      </div>
+    </div>
+
+    <div class="doctor-card">
+      <div class="doctor-card-top">
+        <div class="dc-avatar dc-a4">👨‍⚕️</div>
+        <div class="dc-info">
+          <h3>Dr. Suleman Zafar</h3>
+          <div class="spec-badge">Plastic & Reconstructive Surgery</div><br>
+          <span class="qual-line">MBL, MS (Plastics & Reconstructive Surgery)<br>Consultant Surgeon · Children's Hospital, Multan</span>
+        </div>
+      </div>
+      <div class="doctor-card-body">
+        <p>A Consultant Plastic & Reconstructive Surgeon at Children's Hospital Multan, Dr. Zafar specializes in surgical corrections and reconstruction procedures for pediatric patients.</p>
+        <a href="#appointment" class="book-link">Book an Appointment <span>→</span></a>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- SERVICES -->
+<section class="section" id="services" style="background: var(--bg);">
+  <div class="section-tag">What We Treat</div>
+  <h2>Specialized Services</h2>
+  <p class="section-sub">Azeem Hospital provides a full range of pediatric and specialist services under one roof in the heart of Multan.</p>
+
+  <div class="services-grid">
+    <div class="svc-card t1">
+      <div class="svc-icon">🍼</div>
+      <h3>Newborn & Neonatal Care</h3>
+      <p>Comprehensive neonatal assessments, jaundice management, feeding support, and intensive newborn care by FCPS-certified neonatologists.</p>
+    </div>
+    <div class="svc-card t2">
+      <div class="svc-icon">💉</div>
+      <h3>Vaccinations & Immunization</h3>
+      <p>Complete EPI and extended immunization schedules for children of all ages following Pakistan's national guidelines.</p>
+    </div>
+    <div class="svc-card t3">
+      <div class="svc-icon">🫁</div>
+      <h3>Pediatric Pulmonology</h3>
+      <p>Expert diagnosis and management of asthma, bronchitis, pneumonia, and chronic respiratory conditions in children.</p>
+    </div>
+    <div class="svc-card t4">
+      <div class="svc-icon">🩸</div>
+      <h3>Pediatric Hematology</h3>
+      <p>Evaluation and treatment of blood disorders including anemia, thalassemia, and related hematological conditions in children.</p>
+    </div>
+    <div class="svc-card t5">
+      <div class="svc-icon">📈</div>
+      <h3>Growth & Development</h3>
+      <p>Monitoring physical, cognitive, and nutritional development milestones with early detection and intervention strategies.</p>
+    </div>
+    <div class="svc-card t6">
+      <div class="svc-icon">🔬</div>
+      <h3>Plastic & Reconstructive Surgery</h3>
+      <p>Specialist surgical procedures for congenital abnormalities, burns, cleft palate, and reconstructive needs in pediatric patients.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ABOUT -->
+<section class="section" id="about">
+  <div class="about-grid">
+    <div>
+      <div class="section-tag">About Us</div>
+      <h2>Trusted Pediatric Care in Multan</h2>
+      <p class="section-sub" style="margin-bottom:32px">Azeem Hospital on Chart Road, Multan, has served the region's families for over a decade with specialist-level pediatric medicine, neonatal care, and surgical expertise.</p>
+      <div class="about-features">
+        <div class="feat-item">
+          <div class="feat-icon f-teal">🏅</div>
+          <div>
+            <h4>FCPS-Certified Specialists</h4>
+            <p>All our consultants hold FCPS and higher qualifications from recognized Pakistani and international institutions.</p>
+          </div>
+        </div>
+        <div class="feat-item">
+          <div class="feat-icon f-red">🚨</div>
+          <div>
+            <h4>Emergency & Urgent Care</h4>
+            <p>Same-day urgent appointments available. Reach us on 0333-4413083 for emergencies around the clock.</p>
+          </div>
+        </div>
+        <div class="feat-item">
+          <div class="feat-icon f-gold">👨‍👩‍👧</div>
+          <div>
+            <h4>Family-Centered Approach</h4>
+            <p>We believe in keeping families fully informed and involved in every step of a child's treatment and recovery.</p>
+          </div>
+        </div>
+        <div class="feat-item">
+          <div class="feat-icon f-mint">🏥</div>
+          <div>
+            <h4>Multi-Specialty Under One Roof</h4>
+            <p>From neonatology to reconstructive surgery — all specialist care available at one convenient location in Multan.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="about-visual">
+      <div>
+        <h3>Serving Multan's Children Since 2008</h3>
+        <p>Located on Chart Road — one of Multan's most accessible medical corridors — Azeem Hospital brings together four specialist doctors to deliver comprehensive, compassionate care.</p>
+      </div>
+      <div class="about-nums">
+        <div class="about-num-item">
+          <div class="num">4</div>
+          <div class="nlabel">Specialist Consultants</div>
+        </div>
+        <div class="about-num-item">
+          <div class="num">15+</div>
+          <div class="nlabel">Years of Trust</div>
+        </div>
+        <div class="about-num-item">
+          <div class="num">2</div>
+          <div class="nlabel">Contact Numbers</div>
+        </div>
+        <div class="about-num-item">
+          <div class="num">6</div>
+          <div class="nlabel">Days a Week</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- APPOINTMENT -->
+<div id="appointment" style="padding: 0 0 80px;">
+  <div class="appt-wrapper">
+    <div class="appt-left">
+      <div>
+        <div class="section-tag">Schedule a Visit</div>
+        <h2>Book Your Appointment</h2>
+        <p>Fill the form and our team will confirm your visit shortly. Walk-ins also welcome during clinic hours.</p>
+      </div>
+      <div class="contact-info-list">
+        <div class="ci-item">
+          <div class="ci-icon">📍</div>
+          <div>
+            <h4>Location</h4>
+            <p>Chart Road, Multan<br><span style="direction:rtl;display:inline-block">چارٹ روڈ، ملتان</span></p>
+          </div>
+        </div>
+        <div class="ci-item">
+          <div class="ci-icon">📞</div>
+          <div>
+            <h4>Phone</h4>
+            <p>0300-7310060<br>0333-4413083</p>
+          </div>
+        </div>
+        <div class="ci-item">
+          <div class="ci-icon">🕐</div>
+          <div>
+            <h4>Clinic Hours</h4>
+            <p>Mon – Sat: 9:00 AM – 9:00 PM<br>Sunday: Emergency Only</p>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="appt-right">
+      <h3>Request an Appointment</h3>
+      <div class="form-row">
+        <div class="form-group">
+          <label>Parent / Guardian Name</label>
+          <input type="text" placeholder="Your full name">
+        </div>
+        <div class="form-group">
+          <label>Child's Name</label>
+          <input type="text" placeholder="Patient's name">
+        </div>
+      </div>
+      <div class="form-row">
+        <div class="form-group">
+          <label>Child's Age</label>
+          <input type="text" placeholder="e.g. 2 years / 4 months">
+        </div>
+        <div class="form-group">
+          <label>Contact Number</label>
+          <input type="tel" placeholder="03XX-XXXXXXX">
+        </div>
+      </div>
+      <div class="form-group">
+        <label>Select Doctor</label>
+        <select>
+          <option>Dr. Nusrat Bazdar — Pediatrics & Neonatology</option>
+          <option>Dr. Aqib Javed Malghani — Pulmonology & Hematology</option>
+          <option>Dr. Zulfiqar Chan — Child Specialist & Neonatologist</option>
+          <option>Dr. Suleman Zafar — Plastics & Reconstructive Surgery</option>
+          <option>Any Available Doctor</option>
+        </select>
+      </div>
+      <div class="form-row">
+        <div class="form-group">
+          <label>Preferred Date</label>
+          <input type="date">
+        </div>
+        <div class="form-group">
+          <label>Visit Reason</label>
+          <select>
+            <option>General Checkup</option>
+            <option>Sick Visit / Fever</option>
+            <option>Vaccination</option>
+            <option>Newborn Assessment</option>
+            <option>Respiratory Issue</option>
+            <option>Surgical Consultation</option>
+            <option>Follow-Up</option>
+          </select>
+        </div>
+      </div>
+      <div class="form-group">
+        <label>Additional Notes (optional)</label>
+        <textarea placeholder="Describe symptoms or any special requirements..."></textarea>
+      </div>
+      <button class="btn-book" onclick="handleBook(this)">Confirm Appointment →</button>
+    </div>
+  </div>
+</div>
+
+<!-- LOCATION -->
+<section class="section location-section" id="location">
+  <div class="section-tag">Find Us</div>
+  <h2>How to Reach Us</h2>
+  <div class="location-grid" style="margin-top:32px;">
+    <div class="map-placeholder">
+      <span>📍</span>
+      <strong>Azeem Hospital</strong>
+      <p>Chart Road, Multan<br>چارٹ روڈ، ملتان</p>
+      <a href="https://maps.google.com/?q=Chart+Road+Multan" target="_blank"
+         style="color:var(--teal); font-size:0.82rem; margin-top:8px; text-decoration:underline;">
+        Open in Google Maps →
+      </a>
+    </div>
+    <div>
+      <h3 style="font-family:'Playfair Display',serif; color:var(--ink); margin-bottom:8px;">Clinic Hours</h3>
+      <p style="font-size:0.85rem; color:var(--muted); margin-bottom:4px;">We're open 6 days a week for consultations.</p>
+      <table class="hours-table">
+        <tr><td>Monday</td><td class="open-chip">9:00 AM – 9:00 PM</td></tr>
+        <tr><td>Tuesday</td><td class="open-chip">9:00 AM – 9:00 PM</td></tr>
+        <tr><td>Wednesday</td><td class="open-chip">9:00 AM – 9:00 PM</td></tr>
+        <tr><td>Thursday</td><td class="open-chip">9:00 AM – 9:00 PM</td></tr>
+        <tr><td>Friday</td><td class="open-chip">9:00 AM – 9:00 PM</td></tr>
+        <tr><td>Saturday</td><td class="open-chip">9:00 AM – 9:00 PM</td></tr>
+        <tr><td>Sunday</td><td class="closed-chip">Emergency Only</td></tr>
+      </table>
+      <div style="margin-top:28px; display:flex; flex-direction:column; gap:12px;">
+        <a href="tel:03007310060" style="display:flex; gap:12px; align-items:center; background:var(--teal-pale); padding:14px 18px; border-radius:12px; text-decoration:none; color:var(--ink); font-weight:700; font-size:0.9rem; transition:background 0.2s;"
+           onmouseover="this.style.background='var(--teal)'; this.style.color='#fff';"
+           onmouseout="this.style.background='var(--teal-pale)'; this.style.color='var(--ink)';">
+          📞 &nbsp; 0300-7310060
+        </a>
+        <a href="tel:03334413083" style="display:flex; gap:12px; align-items:center; background:var(--teal-pale); padding:14px 18px; border-radius:12px; text-decoration:none; color:var(--ink); font-weight:700; font-size:0.9rem; transition:background 0.2s;"
+           onmouseover="this.style.background='var(--teal)'; this.style.color='#fff';"
+           onmouseout="this.style.background='var(--teal-pale)'; this.style.color='var(--ink)';">
+          📞 &nbsp; 0333-4413083
+        </a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-top">
+    <div>
+      <div class="footer-logo" style="display:flex; align-items:center; gap:14px; margin-bottom:16px;">
+        <div class="logo-mark"><svg viewBox="0 0 24 24" style="width:24px;height:24px;fill:none;stroke:#fff;stroke-width:2.2;"><path d="M12 2L12 22M2 12L22 12" stroke-linecap="round"/></svg></div>
+        <div class="logo-text">
+          <div class="logo-en">Azeem Hospital</div>
+          <div class="logo-ur">عظیم ہسپتال، ملتان</div>
+        </div>
+      </div>
+      <p>Compassionate specialist care for children in Multan. Chart Road's trusted pediatric center — serving families with excellence since 2008.</p>
+    </div>
+    <div class="footer-col">
+      <h4>Doctors</h4>
+      <ul>
+        <li><a href="#">Dr. Nusrat Bazdar</a></li>
+        <li><a href="#">Dr. Aqib Javed Malghani</a></li>
+        <li><a href="#">Dr. Zulfiqar Chan</a></li>
+        <li><a href="#">Dr. Suleman Zafar</a></li>
+      </ul>
+    </div>
+    <div class="footer-col">
+      <h4>Services</h4>
+      <ul>
+        <li><a href="#">Neonatal Care</a></li>
+        <li><a href="#">Vaccinations</a></li>
+        <li><a href="#">Pulmonology</a></li>
+        <li><a href="#">Hematology</a></li>
+        <li><a href="#">Reconstructive Surgery</a></li>
+      </ul>
+    </div>
+    <div class="footer-col">
+      <h4>Contact</h4>
+      <div class="footer-phones">
+        <div class="fp">
+          <span class="fp-label">Appointment</span>
+          <span class="fp-num">0300-7310060</span>
+        </div>
+        <div class="fp">
+          <span class="fp-label">Emergency / Alt.</span>
+          <span class="fp-num">0333-4413083</span>
+        </div>
+        <div class="fp">
+          <span class="fp-label">Address</span>
+          <span style="font-size:0.84rem; color:rgba(255,255,255,0.55);">Chart Road, Multan</span>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <span>© 2024 Azeem Hospital, Chart Road, Multan. All rights reserved.</span>
+    <span>عظیم ہسپتال چارٹ روڈ ملتان</span>
+  </div>
+</footer>
+
+<script>
+  // Scroll reveal
+  const observer = new IntersectionObserver(entries => {
+    entries.forEach(e => {
+      if (e.isIntersecting) {
+        e.target.style.opacity = '1';
+        e.target.style.transform = 'translateY(0)';
+      }
+    });
+  }, { threshold: 0.08 });
+
+  document.querySelectorAll('.doctor-card, .svc-card, .feat-item, .testi-card').forEach(el => {
+    el.style.opacity = '0';
+    el.style.transform = 'translateY(22px)';
+    el.style.transition = 'opacity 0.55s ease, transform 0.55s ease';
+    observer.observe(el);
+  });
+
+  // Booking button
+  function handleBook(btn) {
+    btn.textContent = '✓ Request Received — We will call you shortly!';
+    btn.style.background = '#1A8A4A';
+    btn.disabled = true;
+    setTimeout(() => {
+      btn.textContent = 'Confirm Appointment →';
+      btn.style.background = '';
+      btn.disabled = false;
+    }, 4000);
+  }
+</script>
+</body>
+</html>
